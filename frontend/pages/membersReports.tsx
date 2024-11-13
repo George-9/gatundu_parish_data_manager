@@ -24,6 +24,12 @@ export function MembersReports() {
     const [searchKey, setSearchKey] = useState('');
     const [loadingSearch, setLoadingSearch] = useState(false);
 
+    const [msg, setMsg] = useState('');
+
+    function onDismiss() {
+        setMsg('');
+    }
+
     const [fetchingMembers, setFetchingMmebers] = useState(false);
 
     const [printingMember, setPrintingMember]: any | null = useState(null);
@@ -258,6 +264,11 @@ export function MembersReports() {
                                             color={'green'}
                                             style={{ margin: 4 }}
                                             onPress={function () {
+                                                if (members.length < 1) {
+                                                    setMsg('LOAD SOME MEMBERS BEFORE EXPORTING');
+                                                    return;
+                                                }
+
                                                 const workbook = XLSX.utils.book_new();
                                                 const worksheet = XLSX.utils.json_to_sheet(members);
                                                 XLSX.utils.book_append_sheet(workbook, worksheet, selectedVolumeName);
@@ -293,6 +304,11 @@ export function MembersReports() {
                                                                     member[property] = '_';
                                                                 }
                                                             }
+                                                        }
+
+                                                        if (members.length < 1) {
+                                                            setMsg('LOAD SOME MEMBERS BEFORE PRINTING')
+                                                            return;
                                                         }
 
                                                         printJS({
@@ -425,6 +441,15 @@ export function MembersReports() {
                         )}
 
             </MainContainerView>
+
+            <reactNativePaper.Portal>
+                <reactNativePaper.Snackbar
+                    visible={msg.length > 0}
+                    onDismiss={onDismiss}
+                    duration={2200}>
+                    {msg}
+                </reactNativePaper.Snackbar>
+            </reactNativePaper.Portal>
         </reactNativePaper.PaperProvider>
     )
 }
