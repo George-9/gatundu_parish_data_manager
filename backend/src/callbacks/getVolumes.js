@@ -10,8 +10,7 @@ export async function GET_VOLUMES(req, resp) {
             .find()
             .toArray();
 
-        console.log('volumes::: ', result);
-
+        // console.log('volumes::: ', result);
         for (let i = 0; i < result.length; i++) {
             const volumeName = result[i]['vol_name'];
 
@@ -22,8 +21,7 @@ export async function GET_VOLUMES(req, resp) {
             result[i]['members_count'] = memberCount;
         }
 
-        console.log(response);
-
+        // console.log(response);
         response.msg = 'success';
         response.data = result;
     } catch (error) {

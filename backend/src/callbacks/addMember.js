@@ -4,8 +4,8 @@ export async function ADD_MEMBER(req, resp) {
     const { volume_name, member } = req.body;
     const response = { 'msg': '', 'data': [] };
 
-    console.log(req.body);
-    console.log('saving to volume: ', volume_name);
+    // console.log(req.body);
+    // console.log('saving to volume: ', volume_name);
 
     if (!volume_name || !member) {
         response.msg = 'bad request: empty or incomplete details';

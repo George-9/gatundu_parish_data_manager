@@ -16,7 +16,7 @@ export async function UPLOAD_MEMBERS(req, resp) {
         .insertMany(members);
 
     if (result.insertedCount > 0) {
-        response.msg = 'success';
+        response.msg = `successfuly uploaded ${result.insertedCount} members`;
         response.data = result.insertedCount;
     } else {
         response.msg = 'something went wrong';

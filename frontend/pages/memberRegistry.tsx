@@ -325,11 +325,21 @@ export default function MembersRegistry() {
             //     memberDetails['Fisrt_Communion_Date'] = '1010/01/01';
             // }
 
-            memberDetails['GOD PARENTS'] = (
-                (memberDetails['GOD FATHER'] || '')
-                + ' . '
-                + (memberDetails['GOD MOTHER'] || '')
-            )
+            if (memberDetails['GOD FATHER'] && memberDetails['GOD MOTHER']) {
+                memberDetails['GOD PARENTS'] = (
+                    (memberDetails['GOD FATHER'] || '')
+                    + ' . '
+                    + (memberDetails['GOD MOTHER'] || '')
+                )
+            } else if (memberDetails['GOD FATHER'] && !memberDetails['GOD MOTHER']) {
+                memberDetails['GOD PARENTS'] = (
+                    (memberDetails['GOD FATHER'])
+                )
+            } else {
+                memberDetails['GOD PARENTS'] = (
+                    + (memberDetails['GOD MOTHER'] || '')
+                )
+            }
 
             delete memberDetails['GOD FATHER'];
             delete memberDetails['GOD MOTHER'];

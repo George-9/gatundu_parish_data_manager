@@ -1,6 +1,7 @@
 import MainContainerView from "@/components/MainContainer";
 import CustomScrollView from "@/components/ScrollView";
 import { VOLUMES_SOURCE } from "@/data_source/volumes";
+import { Link } from "expo-router";
 import { useEffect, useState } from "react";
 import { SafeAreaView, View } from "react-native";
 import { ActivityIndicator, DataTable, Text } from "react-native-paper";
@@ -22,6 +23,8 @@ export default function VolumesReportPage() {
             <CustomScrollView>
 
                 <MainContainerView>
+                    <Text>ICONS CREDITS</Text>
+                    <Link href={"https://www.flaticon.com/free-icons/cross"}>Cross icons created by Freepik - Flaticon</Link>
                     {
                         loadingVolumes
                             ? <ActivityIndicator />

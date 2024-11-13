@@ -29,17 +29,16 @@ export default function VolumesRegistryPage() {
 
     function onVolumeNameChange(name: string) {
         setVolumeName(name);
-        console.log('vol name: ', volumeName);
+        // console.log('vol name: ', volumeName);
     }
 
     async function onSaveVolume() {
-        console.log(volumeName, volumes);
+        // console.log(volumeName, volumes);
         const volumeAlreadyExists = volumes.find(function (volume: any) {
             return volume['vol_name'] === volumeName;
         });
 
-        console.log('already existsing: ', volumeAlreadyExists);
-
+        // console.log('already existsing: ', volumeAlreadyExists);
         if (volumeAlreadyExists) {
             setCurrentMessege(`a volume(${volumeName}) by the provided name already exists`);
             setShowingMessege(true);

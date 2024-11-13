@@ -9,7 +9,7 @@ import { UPDATE_MEMBER } from "./callbacks/updateMember.js";
 import { UPLOAD_MEMBERS } from "./callbacks/uploadMembers.js";
 
 const app = APPLICATION_PROVIDER.application.expressApp;
-const PORT = 8000;
+const PORT = 8708;
 
 app.get('/', async function (req, resp) {
     const result = await DATABASE_CONTRACT.exec(`SELECT NOW() as date;`);
@@ -31,5 +31,4 @@ app.post('/load/members/by/volume', GET_MEMBERS_BY_VOLUME);
  */
 app.post('/load/member/by/id', function (req, resp) { });
 
-app.listen(PORT, function () { console.log('SERVER RUNNING'); });
-app
+app.listen(PORT);

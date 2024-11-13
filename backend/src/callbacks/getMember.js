@@ -15,7 +15,7 @@ export async function GET_MEMBER_BY_BAPTISMAL_NUMBER(req, resp) {
             .memberVolumeCollectionInstance(volume_name)
             .findOne({ '_id': new ObjectId(id) });
 
-        console.log('got member: ', theMember);
+        // console.log('got member: ', theMember);
 
         details.msg = 'success';
         details.data = theMember;
