@@ -169,7 +169,7 @@ export function MembersReports() {
                                     name="close"
                                     size={30}
                                     onPress={function () {
-                                        setPrintingMember(null)
+                                        setPrintingMember(null);
                                     }}
                                 />
                             </reactNativePaper.Card.Actions>
