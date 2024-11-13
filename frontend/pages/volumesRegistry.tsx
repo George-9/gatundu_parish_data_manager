@@ -6,13 +6,10 @@ import { VOLUMES_SOURCE } from "@/data_source/volumes";
 import { useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
 import { SafeAreaView, useWindowDimensions, View } from "react-native";
-import { ActivityIndicator, MD2LightTheme, MD3DarkTheme, MD3LightTheme, PaperProvider, Portal, Snackbar, Text, ThemeProvider } from "react-native-paper";
+import * as reactNativePaper from "react-native-paper";
 
 export default function VolumesRegistryPage() {
-    const deviceSize = useWindowDimensions();
     const [volumeName, setVolumeName] = useState('');
-
-    const navigator = useNavigation();
 
     const [currentMessege, setCurrentMessege] = useState('');
     const [showingMessege, setShowingMessege] = useState(false);
@@ -51,7 +48,7 @@ export default function VolumesRegistryPage() {
         const body = { 'volume_name': volumeName.trim() }
 
         const result = await fetch(
-            'http://localhost:8000/create/volume',
+            'http://localhost:8708/create/volume',
             {
                 'method': 'POST',
                 'body': JSON.stringify(body),
@@ -82,11 +79,11 @@ export default function VolumesRegistryPage() {
     }
 
     return (
-        <PaperProvider theme={MD3LightTheme}>
+        <reactNativePaper.PaperProvider theme={reactNativePaper.MD3LightTheme}>
             <SafeAreaView>
                 {
                     loadingVolumes
-                        ? <ActivityIndicator />
+                        ? <reactNativePaper.ActivityIndicator />
                         : <CustomScrollView>
                             <MainContainerView>
 
@@ -105,36 +102,36 @@ export default function VolumesRegistryPage() {
                                         style={{ maxWidth: 400 }}
                                     />
 
-                                    <Text style={{ fontWeight: '800' }}>hint</Text>
-                                    <Text style={{ fontWeight: '100', lineHeight: 20, marginTop: 3 }}>
+                                    <reactNativePaper.Text style={{ fontWeight: '800' }}>hint</reactNativePaper.Text>
+                                    <reactNativePaper.Text style={{ fontWeight: '100', lineHeight: 20, marginTop: 3 }}>
                                         IF AUTOMATICALLY TAKEN TO THIS PAGE, THERE EXISTS NO VOLUMES FOR THERE TO BE ANY OPERATIONS,
                                         PLEASE CREATE SOME VOLUMES
-                                    </Text>
+                                    </reactNativePaper.Text>
                                     <View style={{ height: 10 }} />
-                                    <Text>
+                                    <reactNativePaper.Text>
                                         IT IS PREFFERED THAT YOU CREATE VOLUMES BY YEARS,
                                         FOR EXAMPLE; A VOLUME "1997" or "2020"
-                                    </Text>
+                                    </reactNativePaper.Text>
                                 </View>
 
                             </MainContainerView>
                         </CustomScrollView>
                 }
 
-                <Portal theme={MD2LightTheme}>
-                    <Snackbar
+                <reactNativePaper.Portal theme={reactNativePaper.MD2LightTheme}>
+                    <reactNativePaper.Snackbar
                         style={{ backgroundColor: 'white' }}
                         duration={3200}
                         visible={showingMessege}
                         onDismiss={hideSnackBar}
-                        theme={MD2LightTheme}
+                        theme={reactNativePaper.MD2LightTheme}
                     >
-                        <Text>{currentMessege}</Text>
-                    </Snackbar>
-                </Portal>
+                        <reactNativePaper.Text>{currentMessege}</reactNativePaper.Text>
+                    </reactNativePaper.Snackbar>
+                </reactNativePaper.Portal>
 
             </SafeAreaView>
 
-        </PaperProvider>
+        </reactNativePaper.PaperProvider>
     )
 }

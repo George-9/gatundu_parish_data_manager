@@ -12,28 +12,28 @@ import { VOLUMES_SOURCE } from "@/data_source/volumes";
 import VolumesRegistryPage from "./volumesRegistry";
 import { HorizontalSpacer } from "@/components/Spacers";
 
-export interface MemberObject {
-    name: string,
-    baptismal_number: string,
-    gender: string,
-    date_of_baptism: string,
-    date_of_birth: string,
-    father: string,
-    mother: string,
-    date_of_confirmation: string,
-    home_address: string,
-    God_Father: string,
-    Fisrt_Communion_Date: string,
-    God_Mother: string,
-    baptismal_minister: string,
-    confirmation_minister: string,
-    spouse: string,
-    date_of_marriage: string,
-    mariage_kind: string,
-    member_observation: string,
-    tribe: string,
-    death_date: string
-}
+// export interface MemberObject {
+//     NAME: string,
+//     "BAPTISMAL NUMBER": string,
+//     GENDER: string,
+//     "DATE OF BAPTISM": string,
+//     "DATE OF BIRTH": string,
+//     "FATHER": string,
+//     "MOTHER": string,
+//     "CONFIRMATION": string,
+//     "HOME ADDRESS": string,
+//     "FIRST COMMUNION": string,
+//     "GOD FATHER": memberGodFather,
+//     "GOD MOTHER": memberGodMother,
+//     "BAPTISMAL MINISTER": memberBaptismalMinister,
+//     "CONFIRMATION MINISTER": memberConfirmationMinister,
+//     "SPOUSE": memberSpouse,
+//     "MARRIAGE": memberMarriageKind,
+//     "DATE OF MARRIAGE": memberDateOfMarriage,
+//     "NOTE": memberObservation,
+//     "TRIBE": memberTribe,
+//     "DEATH": memberDeathDate
+// }
 
 export default function MembersRegistry() {
     const [volumes, setVolumes] = useState<{ id: number, vol_name: string }[]>([]);
@@ -51,26 +51,47 @@ export default function MembersRegistry() {
     const [currentMessege, setCurrentMessege] = useState('');
     const [showingMessege, setShowingMessege] = useState(false);
 
-    const [memberName, setMemberName] = useState('JOHN DOE');
-    const [memberBaptismalNumber, setMemberBaptismalNumber] = useState('1210-KJ');
-    const [memberDateOfBirth, setMemberDateOfBirth] = useState('12/MAR/1999');
+    // const [memberName, setMemberName] = useState('JOHN DOE');
+    // const [memberBaptismalNumber, setMemberBaptismalNumber] = useState('1210-KJ');
+    // const [memberDateOfBirth, setMemberDateOfBirth] = useState('12/MAR/1999');
+    // const [memberGender, setMemberGender] = useState('M');
+    // const [memberDateOfBaptism, setMemberDateOfBaptism] = useState('1/MAY/2000');
+    // const [memberDateOfConfirmation, setMemberDateOfConfirmation] = useState('13/JUN/2010');
+    // const [memberFatherName, setMemberFatherName] = useState('JERRY NJENGA');
+    // const [memberMotherName, setMemberMotherName] = useState('LOISE MUTHAGA');
+    // const [memberHomeAddress, setMemberHomeAddress] = useState('GATURA');
+    // const [memberDateFirstCommunion, setMemberDateFirstCommunion] = useState('12/MAR/1999');
+    // const [memberGodFather, setMemberGodFather] = useState('MR. JAMES K');
+    // const [memberGodMother, setMemberGodMother] = useState('MRS. LUCY KENDA');
+    // const [memberBaptismalMinister, setMemberBaptismalMinister] = useState('FR. PETER');
+    // const [memberConfirmationMinister, setMemberConfirmationMinister] = useState('FR. THOMAS');
+    // const [memberSpouse, setMemberSpouse] = useState('LOISE NJERI');
+    // const [memberDateOfMarriage, setMemberDateOfMarriage] = useState('20/NOV/2024');
+    // const [memberObservation, setMemberObservation] = useState('LIT');
+    // const [memberTribe, setMemberTribe] = useState('GIKUYU');
+    // const [memberDeathDate, setMemberDeathDate] = useState('12/FEB/2099');
+    // const [memberMarriageKind, setMemberMarriageKind] = useState('SPOUSE');
+
+    const [memberName, setMemberName] = useState('');
+    const [memberBaptismalNumber, setMemberBaptismalNumber] = useState('');
+    const [memberDateOfBirth, setMemberDateOfBirth] = useState('');
     const [memberGender, setMemberGender] = useState('M');
-    const [memberDateOfBaptism, setMemberDateOfBaptism] = useState('1/MAY/2000');
-    const [memberDateOfConfirmation, setMemberDateOfConfirmation] = useState('13/JUN/2010');
-    const [memberFatherName, setMemberFatherName] = useState('JERRY NJENGA');
-    const [memberMotherName, setMemberMotherName] = useState('LOISE MUTHAGA');
-    const [memberHomeAddress, setMemberHomeAddress] = useState('GATURA');
-    const [memberDateFirstCommunion, setMemberDateFirstCommunion] = useState('12/MAR/1999');
-    const [memberGodFather, setMemberGodFather] = useState('MR. JAMES K');
-    const [memberGodMother, setMemberGodMother] = useState('MRS. LUCY KENDA');
-    const [memberBaptismalMinister, setMemberBaptismalMinister] = useState('FR. PETER');
-    const [memberConfirmationMinister, setMemberConfirmationMinister] = useState('FR. THOMAS');
-    const [memberSpouse, setMemberSpouse] = useState('LOISE NJERI');
-    const [memberDateOfMarriage, setMemberDateOfMarriage] = useState('20/NOV/2024');
-    const [memberObservation, setMemberObservation] = useState('LIT');
-    const [memberTribe, setMemberTribe] = useState('GIKUYU');
-    const [memberDeathDate, setMemberDeathDate] = useState('12/FEB/2099');
-    const [memberMarriageKind, setMemberMarriageKind] = useState('SPOUSE');
+    const [memberDateOfBaptism, setMemberDateOfBaptism] = useState('');
+    const [memberDateOfConfirmation, setMemberDateOfConfirmation] = useState('');
+    const [memberFatherName, setMemberFatherName] = useState('');
+    const [memberMotherName, setMemberMotherName] = useState('');
+    const [memberHomeAddress, setMemberHomeAddress] = useState('');
+    const [memberDateFirstCommunion, setMemberDateFirstCommunion] = useState('');
+    const [memberGodFather, setMemberGodFather] = useState('');
+    const [memberGodMother, setMemberGodMother] = useState('');
+    const [memberBaptismalMinister, setMemberBaptismalMinister] = useState('');
+    const [memberConfirmationMinister, setMemberConfirmationMinister] = useState('');
+    const [memberSpouse, setMemberSpouse] = useState('');
+    const [memberDateOfMarriage, setMemberDateOfMarriage] = useState('');
+    const [memberObservation, setMemberObservation] = useState('');
+    const [memberTribe, setMemberTribe] = useState('');
+    const [memberDeathDate, setMemberDeathDate] = useState('');
+    const [memberMarriageKind, setMemberMarriageKind] = useState('');
 
     function onNameChange(value: string) {
         console.log(value);
@@ -84,11 +105,6 @@ export default function MembersRegistry() {
 
     function onDateOfBirthChange(value: string) {
         setMemberDateOfBirth(value);
-    }
-
-    function onGenderChange(value: string, index: number) {
-        setMemberGender(value);
-        console.error('selected index: ', index);
     }
 
     function onDateOfBaptismChange(value: string) {
@@ -151,27 +167,27 @@ export default function MembersRegistry() {
         setMemberConfirmationMinister(value);
     }
 
-    const memberDetails: MemberObject | any = {
-        name: memberName,
-        baptismal_number: memberBaptismalNumber,
-        gender: memberGender,
-        date_of_baptism: memberDateOfBaptism,
-        date_of_birth: memberDateOfBirth,
-        father: memberFatherName,
-        mother: memberMotherName,
-        date_of_confirmation: memberDateOfConfirmation,
-        home_address: memberHomeAddress,
-        Fisrt_Communion_Date: memberDateFirstCommunion,
-        God_Father: memberGodFather,
-        God_Mother: memberGodMother,
-        baptismal_minister: memberBaptismalMinister,
-        confirmation_minister: memberConfirmationMinister,
-        spouse: memberSpouse,
-        marriage_kind: memberMarriageKind,
-        date_of_marriage: memberDateOfMarriage,
-        member_observation: memberObservation,
-        tribe: memberTribe,
-        death_date: memberDeathDate
+    const memberDetails: any = {
+        NAME: memberName,
+        "BAPTISMAL NUMBER": memberBaptismalNumber,
+        GENDER: memberGender,
+        "DATE OF BAPTISM": memberDateOfBaptism,
+        "DATE OF BIRTH": memberDateOfBirth,
+        "FATHER": memberFatherName,
+        "MOTHER": memberMotherName,
+        "CONFIRMATION": memberDateOfConfirmation,
+        "HOME ADDRESS": memberHomeAddress,
+        "FIRST COMMUNION": memberDateFirstCommunion,
+        "GOD FATHER": memberGodFather,
+        "GOD MOTHER": memberGodMother,
+        "BAPTISMAL MINISTER": memberBaptismalMinister,
+        "CONFIRMATION MINISTER": memberConfirmationMinister,
+        "SPOUSE": memberSpouse,
+        "MARRIAGE": memberMarriageKind,
+        "DATE OF MARRIAGE": memberDateOfMarriage,
+        "NOTE": memberObservation,
+        "TRIBE": memberTribe,
+        "DEATH": memberDeathDate
     }
 
 
@@ -308,9 +324,18 @@ export default function MembersRegistry() {
             // if (!memberDetails['Fisrt_Communion_Date']) {
             //     memberDetails['Fisrt_Communion_Date'] = '1010/01/01';
             // }
-            console.table(CAPITALISED_AND_TRIMMED_OBJECT(memberDetails));
+
+            memberDetails['GOD PARENTS'] = (
+                (memberDetails['GOD FATHER'] || '')
+                + ' . '
+                + (memberDetails['GOD MOTHER'] || '')
+            )
+
+            delete memberDetails['GOD FATHER'];
+            delete memberDetails['GOD MOTHER'];
+
             const result = await fetch(
-                'http://localhost:8000/register/member',
+                'http://localhost:8708/register/member',
                 {
                     'method': 'POST',
                     'mode': 'cors',
@@ -321,7 +346,7 @@ export default function MembersRegistry() {
                         volume_name: (volumes.length < 2 || !`${selectedVolumeName}`.trim())
                             ? volumes[0]['vol_name']
                             : selectedVolumeName,
-                        member: memberDetails,
+                        member: CAPITALISED_AND_TRIMMED_OBJECT(memberDetails),
                     }),
                 });
 

@@ -4,7 +4,7 @@ export function CAPITALISED_AND_TRIMMED_OBJECT(object: any) {
 
     for (let i = 0; i < keys.length; i++) {
         const key = keys[i];
-        tmp[key] = `${object[key]}`
+        tmp[`${key}`.trim().split('_').join(' ').toUpperCase()] = `${object[key]}`
             .trim()
             .toUpperCase();
     }

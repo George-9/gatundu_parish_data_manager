@@ -50,7 +50,7 @@ export default function MemberView() {
         }
 
         const result = await fetch(
-            'http://localhost:8000/get/member/by/baptismal/number',
+            'http://localhost:8708/get/member/by/baptismal/number',
             {
                 'method': 'POST',
                 'body': JSON.stringify(body),
@@ -65,27 +65,26 @@ export default function MemberView() {
 
         setloadingMember(false)
         console.log('memberDetails: ', memberDetails);
-        delete memberDetails['marriage_kind'];
+        delete memberDetails['MARRIAGE KIND'];
 
-        setMemberName(memberDetails['name'] || '');
-        setMemberBaptismalNumber(memberDetails['baptismal_number'] || '');
-        setMemberDateOfBirth(memberDetails['date_of_birth'] || '');
-        setMemberGender(memberDetails['gender'] || '');
-        setMemberDateOfBaptism(memberDetails['date_of_baptism'] || '');
-        setMemberDateOfConfirmation(memberDetails['date_of_confirmation'] || '');
-        setMemberFatherName(memberDetails['father'] || '');
-        setMemberMotherName(memberDetails['mother'] || '');
-        setMemberHomeAddress(memberDetails['home_address'] || '');
-        setMemberGodFather(memberDetails['God_Father'] || '');
-        setMemberGodMother(memberDetails['God_Mother'] || '');
-        setMemberBaptismalMinister(memberDetails['baptismal_minister'] || '');
-        setMemberDateFirstCommunion(memberDetails['First_Communion'] || '');
-        setMemberSpouse(memberDetails['spouse'] || '');
-        setMemberDateOfMarriage(memberDetails['date_of_marriage'] || '');
-        setMemberTribe(memberDetails['tribe'] || '');
-        setMemberDeathDate(memberDetails['death_date'] || '');
-        setMemberObservation(memberDetails['observation'] || '');
-        setMemberConfirmationMinister(memberDetails['confirmation_minister'] || '');
+        setMemberName(memberDetails['NAME'] || '');
+        setMemberBaptismalNumber(memberDetails['BAPTISMAL NUMBER'] || '');
+        setMemberDateOfBirth(memberDetails['DATE OF BIRTH'] || '');
+        setMemberGender(memberDetails['GENDER'] || '');
+        setMemberDateOfBaptism(memberDetails['DATE OF BAPTISM'] || '');
+        setMemberDateOfConfirmation(memberDetails['DATE OF CONFIRMATION'] || '');
+        setMemberFatherName(memberDetails['FATHER'] || '');
+        setMemberMotherName(memberDetails['MOTHER'] || '');
+        setMemberHomeAddress(memberDetails['HOME ADDRESS'] || '');
+        setMemberGodFather(memberDetails['GOD PARENTS'] || '');
+        setMemberBaptismalMinister(memberDetails['BAPTISMAL MINISTER'] || '');
+        setMemberDateFirstCommunion(memberDetails['FIRST COMMUNION'] || '');
+        setMemberSpouse(memberDetails['SPOUSE'] || '');
+        setMemberDateOfMarriage(memberDetails['DATE OF MARRIAGE'] || '');
+        setMemberTribe(memberDetails['TRIBE'] || '');
+        setMemberDeathDate(memberDetails['DEATH'] || '');
+        setMemberObservation(memberDetails['NOTE'] || '');
+        setMemberConfirmationMinister(memberDetails['CONFIRMATION MINISTER'] || '');
     }
 
     function onNameChange(value: string) {
@@ -100,11 +99,6 @@ export default function MemberView() {
 
     function onDateOfBirthChange(value: string) {
         setMemberDateOfBirth(value);
-    }
-
-    function onGenderChange(value: string, index: number) {
-        setMemberGender(value);
-        console.error('selected index: ', index);
     }
 
     function onDateOfBaptismChange(value: string) {
@@ -305,7 +299,7 @@ export default function MemberView() {
             memberDetails['id'] = params['id'];
             console.table(CAPITALISED_AND_TRIMMED_OBJECT(memberDetails));
             const result = await fetch(
-                'http://localhost:8000/update/member',
+                'http://localhost:8708/update/member',
                 {
                     'method': 'POST',
                     'mode': 'cors',
@@ -383,7 +377,7 @@ export default function MemberView() {
                                                 <View>
                                                     <Text>GENDER</Text>
                                                     <CustomPicker
-                                                        defaultValue={'M'}
+                                                        defaultValue={memberDetails['GENDER'] || 'M'}
                                                         onChange={function (event: any) {
                                                             setMemberGender(event.target.value);
                                                         }}>

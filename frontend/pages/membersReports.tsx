@@ -2,28 +2,39 @@ import MainContainerView from "@/components/MainContainer";
 import CustomPicker from "@/components/Picker";
 import { VOLUMES_SOURCE } from "@/data_source/volumes";
 import { useEffect, useState } from "react";
-import { Pressable, ScrollView, View } from "react-native";
-import { ActivityIndicator, Card, DataTable, MD3LightTheme, Modal, PaperProvider, Portal, Searchbar, Text, TextInput } from "react-native-paper";
+import { View } from "react-native";
+import * as reactNativePaper from "react-native-paper";
 import ResponsiveContainer from "@/components/ResponsiveContainer";
 import CustomOutlinedButton from "@/components/Button";
 import { useNavigation } from "expo-router";
 import CustomScrollView from "@/components/ScrollView";
 import { HorizontalSpacer, VerticalSpacer } from "@/components/Spacers";
-import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import { SearchBar } from "react-native-screens";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { ScrollView } from "react-native-gesture-handler";
+import * as XLSX from "xlsx";
 
 export function MembersReports() {
     const navigator = useNavigation();
 
-    const [volumes, setVolumes] = useState<{ id: number, vol_name: string }[]>([]);
     const [loadingVolumes, setLoadingVolumes] = useState(true);
+    const [volumes, setVolumes] = useState<{ id: number, vol_name: string }[]>([]);
     const [loadingMembers, setLoadingMembers] = useState(true);
     const [selectedVolumeName, setSelectedVolumeName] = useState('')
     const [members, setMembers] = useState([]);
     const [searchKey, setSearchKey] = useState('');
     const [loadingSearch, setLoadingSearch] = useState(false);
 
+    const [printingMember, setPrintingMember]: any | null = useState(null);
+
+    let selectedMembersIds: any[] = [];
+
+    const [canPerformSearch, setCanPerformSearch] = useState(true);
+
     useEffect(function () { setTimeout(main, 1800); }, []);
+
+    function memberIdInSelectionList(member: any) {
+        return selectedMembersIds.includes(member['_id']);
+    }
 
     async function main() {
         let volumes = await VOLUMES_SOURCE.allVolumes();
@@ -50,7 +61,7 @@ export function MembersReports() {
         const volumeDetails = { volume_name: volumeName };
 
         const response = await fetch(
-            'http://localhost:8000/load/members/by/volume',
+            'http://localhost:8708/load/members/by/volume',
             {
                 'method': 'POST',
                 'mode': 'cors',
@@ -77,33 +88,104 @@ export function MembersReports() {
     }
 
     function onSearchKeyChange(key: string) {
-        setSearchKey(key);
+        if (canPerformSearch) {
+            setLoadingSearch(true);
+            setSearchKey(key);
 
-        if (!(searchKey.trim())) {
-            setMembers(members);
-            return;
+            if (!(searchKey.trim())) {
+                setMembers(members);
+                return;
+            }
+
+            setCanPerformSearch(false);
+
+            setTimeout(() => {
+                setLoadingSearch(true)
+                let filteredMembers = members.filter(function (member) {
+                    return (
+                        `${member['NAME']}`.toLowerCase().match(searchKey.trim().toLowerCase())
+                        || `${member['BAPTISMAL NUMBER']}`.toLowerCase()
+                            .match(searchKey.trim().toLowerCase())
+                    );
+                });
+
+                setMembers(filteredMembers);
+                setLoadingSearch(false)
+
+                setCanPerformSearch(true);
+                setLoadingSearch(false);
+            }, 1800);
         }
-
-        setLoadingSearch(true)
-        let filteredMembers = members;
-        filteredMembers = filteredMembers.filter(function (member) {
-            return (
-                `${member['name']}`.toLowerCase().match(searchKey.trim().toLowerCase())
-                || `${member['baptismal_number']}`.toLowerCase()
-                    .match(searchKey.trim().toLowerCase())
-            );
-        });
-        setMembers(filteredMembers);
-        setLoadingSearch(false)
     }
 
     return (
-        <PaperProvider theme={MD3LightTheme}>
+        <reactNativePaper.PaperProvider theme={reactNativePaper.MD3LightTheme}>
 
             <MainContainerView>
+                <reactNativePaper.Portal>
+                    <reactNativePaper.Dialog
+                        visible={printingMember !== null}
+                        style={{ maxHeight: 200 }}
+                    >
+                        <reactNativePaper.Card theme={reactNativePaper.MD3LightTheme}>
+                            {
+                                printingMember ?
+                                    <>
+                                        <ScrollView
+                                            contentContainerStyle={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                marginVertical: 4,
+                                                maxHeight: 600
+                                            }}>
+                                            {
+                                                Object.keys(printingMember).map(function key(key) {
+                                                    return key.match('_id')
+                                                        ? null
+                                                        : (
+                                                            <View
+                                                                key={key}
+                                                                style={{
+                                                                    display: 'flex',
+                                                                    flexDirection: 'row',
+                                                                    justifyContent: 'space-between',
+                                                                    width: 250,
+                                                                    marginVertical: 4
+                                                                }}>
+
+                                                                <reactNativePaper.Text style={{ fontWeight: '800' }}>
+                                                                    {key.toUpperCase()}
+                                                                </reactNativePaper.Text>
+
+                                                                <reactNativePaper.Text style={{ fontWeight: '400' }}>{printingMember[key]}</reactNativePaper.Text>
+                                                            </View>
+                                                        )
+                                                })
+                                            }
+                                        </ScrollView>
+
+                                        <reactNativePaper.Card.Actions>
+                                            <Ionicons
+                                                name="close"
+                                                size={30}
+                                                onPress={function () {
+                                                    setPrintingMember(null)
+                                                }}
+                                            />
+                                        </reactNativePaper.Card.Actions>
+                                    </>
+                                    : <></>
+                            }
+                        </reactNativePaper.Card>
+
+                    </reactNativePaper.Dialog>
+                </reactNativePaper.Portal>
+
                 {
                     loadingVolumes || loadingMembers
-                        ? <ActivityIndicator />
+                        ? <reactNativePaper.ActivityIndicator />
                         : (
                             <View>
                                 <ResponsiveContainer>
@@ -134,62 +216,146 @@ export function MembersReports() {
                                         onPress={loadMembers}
                                     />
 
+                                    <reactNativePaper.Tooltip title="export to excel">
+                                        <MaterialCommunityIcons
+                                            name="file-excel-outline"
+                                            size={30}
+                                            color={'green'}
+                                            style={{ margin: 4 }}
+                                            onPress={function () {
+                                                const workbook = XLSX.utils.book_new();
+                                                const worksheet = XLSX.utils.json_to_sheet(members);
+                                                XLSX.utils.book_append_sheet(workbook, worksheet, selectedVolumeName);
+                                                XLSX.writeFile(workbook, `gatundu_${selectedVolumeName}_members.xlsx`);
+                                            }}
+                                        />
+                                    </reactNativePaper.Tooltip>
+
+
+                                    <reactNativePaper.Tooltip title="print all members">
+                                        <MaterialCommunityIcons
+                                            name="printer"
+                                            color={'blue'}
+                                            size={30}
+                                            style={{ margin: 4 }}
+                                            onPress={function () {
+
+                                            }}
+                                        />
+                                    </reactNativePaper.Tooltip>
                                 </ResponsiveContainer>
 
-                                <Portal>
-                                    <Searchbar
-                                        placeholder="name or baptismal number"
-                                        elevation={2}
-                                        loading={loadingSearch}
-                                        value={searchKey}
-                                        style={{ borderRadius: 1 }}
-                                        onChangeText={onSearchKeyChange}
-                                        onClearIconPress={function () {
-                                            setMembers(members);
-                                            setLoadingSearch(false);
-                                        }}
-                                    />
-                                </Portal>
+                                <reactNativePaper.Portal>
+                                    {
+                                        printingMember
+                                            ? null
+                                            : <reactNativePaper.Searchbar
+                                                placeholder="name or baptismal number"
+                                                elevation={2}
+                                                loading={loadingSearch}
+                                                value={searchKey}
+                                                style={{ borderRadius: 1 }}
+                                                onChangeText={onSearchKeyChange}
+                                                onClearIconPress={function () {
+                                                    setMembers(members);
+                                                    setLoadingSearch(false);
+                                                }}
+                                            />
+                                    }
+                                </reactNativePaper.Portal>
 
-                                <Pressable>
-                                    <MaterialCommunityIcons name="file-excel-outline" size={50} />
-                                </Pressable>
-
-                                <CustomScrollView>
-                                    <View style={{ width: 500 }}>
+                                <View>
+                                    <reactNativePaper.DataTable>
+                                        <reactNativePaper.DataTable.Header>
+                                            <reactNativePaper.DataTable.Title>NO</reactNativePaper.DataTable.Title>
+                                            <reactNativePaper.DataTable.Title style={{ minWidth: 200 }}>NAME</reactNativePaper.DataTable.Title>
+                                            <reactNativePaper.DataTable.Title style={{ minWidth: 200 }}>NUMBER/BAPTISMAL NUMBER</reactNativePaper.DataTable.Title>
+                                            <reactNativePaper.DataTable.Title>{' '}</reactNativePaper.DataTable.Title>
+                                            <reactNativePaper.DataTable.Title>{' '}</reactNativePaper.DataTable.Title>
+                                        </reactNativePaper.DataTable.Header>
                                         {
                                             members.length < 1
                                                 ? (
-                                                    <Text style={{ fontWeight: '900' }}>
+                                                    <reactNativePaper.Text style={{ fontWeight: '900' }}>
                                                         NO MEMBERS
-                                                    </Text>
+                                                    </reactNativePaper.Text>
                                                 )
-                                                : members.map(function (member, index) {
-                                                    return (
-                                                        <Pressable
-                                                            key={member['baptismal_number']}
-                                                            onPress={async function () {
-                                                                navigator.navigate(
-                                                                    'MemberViewPage', {
-                                                                    'volumename': selectedVolumeName,
-                                                                    'id': member['_id']
-                                                                }
-                                                                );
-                                                            }}>
-                                                            <DataTable.Row key={member['baptismal_number']}>
-                                                                <DataTable.Cell>{index + 1}</DataTable.Cell>
-                                                                <DataTable.Cell>{member['name']}</DataTable.Cell>
-                                                                <DataTable.Cell>{member['baptismal_number']}</DataTable.Cell>
-                                                            </DataTable.Row>
-                                                        </Pressable>
-                                                    )
-                                                })
+                                                : <ScrollView style={{ maxHeight: 400 }}>
+                                                    {members.map(function (member: any, index) {
+                                                        return (
+                                                            <reactNativePaper.DataTable.Row key={member['_id']}>
+                                                                <reactNativePaper.DataTable.Cell>{index + 1}</reactNativePaper.DataTable.Cell>
+                                                                {/* <reactNativePaper.DataTable.Cell>
+                                                                    <Ionicons
+                                                                        name={checking
+                                                                            ? 'text-sharp'
+                                                                            : selectedMembersIds.length > 1
+                                                                                ? 'remove-outline'
+                                                                                : 'add-outline'}
+                                                                        onPress={function () {
+                                                                            setChecking(true);
+
+                                                                            if (memberIdInSelectionList(member)) {
+                                                                                selectedMembersIds = selectedMembersIds.filter(function (id) {
+                                                                                    return id !== member['_id'];
+                                                                                });
+                                                                            } else {
+                                                                                selectedMembersIds.push(member['_id']);
+                                                                                console.log('selectedMembersIds::', selectedMembersIds);
+                                                                            }
+                                                                            setChecking(false);
+                                                                        }}
+                                                                    />
+                                                                </reactNativePaper.DataTable.Cell> */}
+                                                                <reactNativePaper.DataTable.Cell
+                                                                    style={{
+                                                                        flexGrow: 1,
+                                                                        margin: 3,
+                                                                        minWidth: 200
+                                                                    }}
+                                                                >
+                                                                    {member['NAME']}
+                                                                </reactNativePaper.DataTable.Cell>
+                                                                <reactNativePaper.DataTable.Cell
+                                                                    style={{ minWidth: 200 }}>{member['BAPTISMAL NUMBER']}
+                                                                </reactNativePaper.DataTable.Cell>
+
+                                                                <reactNativePaper.DataTable.Cell>
+                                                                    <MaterialCommunityIcons
+                                                                        name="book-edit-outline"
+                                                                        size={20}
+                                                                        onPress={async function () {
+                                                                            navigator.navigate(
+                                                                                'memberview',
+                                                                                {
+                                                                                    'volumename': selectedVolumeName,
+                                                                                    'id': member['_id']
+                                                                                }
+                                                                            );
+                                                                        }}
+                                                                    />
+                                                                </reactNativePaper.DataTable.Cell>
+
+                                                                <reactNativePaper.DataTable.Cell>
+                                                                    <Ionicons
+                                                                        name="print"
+                                                                        size={20}
+                                                                        onPress={async function () {
+                                                                            setPrintingMember(member);
+                                                                        }}
+                                                                    />
+                                                                </reactNativePaper.DataTable.Cell>
+                                                            </reactNativePaper.DataTable.Row>
+                                                        )
+                                                    })}
+                                                </ScrollView>
                                         }
-                                    </View>
-                                </CustomScrollView>
+                                    </reactNativePaper.DataTable>
+                                </View>
                             </View>
                         )}
+
             </MainContainerView>
-        </PaperProvider>
+        </reactNativePaper.PaperProvider>
     )
 }
