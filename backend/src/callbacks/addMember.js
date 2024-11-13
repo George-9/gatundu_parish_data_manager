@@ -14,7 +14,7 @@ export async function ADD_MEMBER(req, resp) {
 
     const existstingWithBaptismalNumber = await DATABASE_CONTRACT
         .memberVolumeCollectionInstance(volume_name)
-        .findOne();
+        .findOne({ 'BAPTISMAL NUMBER': member['BAPTISMAL NUMBER'] });
 
     if (existstingWithBaptismalNumber && existstingWithBaptismalNumber._id) {
         response.msg = 'member with the given baptismal number exists';
