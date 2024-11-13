@@ -28,15 +28,16 @@ export function MembersReports() {
 
     const [printingMember, setPrintingMember]: any | null = useState(null);
 
-    let selectedMembersIds: any[] = [];
+    // let selectedMembersIds: any[] = [];
+    const [isPrintingMembers, setPrintingMembers] = useState(false);
 
     const [canPerformSearch, setCanPerformSearch] = useState(true);
 
     useEffect(function () { setTimeout(main, 1800); }, []);
 
-    function memberIdInSelectionList(member: any) {
-        return selectedMembersIds.includes(member['_id']);
-    }
+    // function memberIdInSelectionList(member: any) {
+    //     return selectedMembersIds.includes(member['_id']);
+    // }
 
     async function main() {
         let volumes = await VOLUMES_SOURCE.allVolumes();
@@ -52,7 +53,11 @@ export function MembersReports() {
                 return navigator.navigate(route);
             }
 
-            setSelectedVolumeName(volumes.length > 0 ? volumes[0]['vol_name'] : '');
+            setSelectedVolumeName(
+                volumes.length > 0
+                    ? volumes[0]['vol_name']
+                    : ''
+            );
             // console.log('selected volume name: ', selectedVolumeName);
 
             await setVolumeMembers(selectedVolumeName);
@@ -94,9 +99,12 @@ export function MembersReports() {
     }
 
     function onSearchKeyChange(key: string) {
+        setSearchKey(key);
+    }
+
+    function searchMembersByKey() {
         if (canPerformSearch) {
             setLoadingSearch(true);
-            setSearchKey(key);
 
             if (!(searchKey.trim())) {
                 setMembers(members);
@@ -260,24 +268,46 @@ export function MembersReports() {
 
 
                                     <reactNativePaper.Tooltip title="print all members">
-                                        <MaterialCommunityIcons
-                                            name="printer"
-                                            color={'blue'}
-                                            size={30}
-                                            style={{ margin: 4 }}
-                                            onPress={function () {
-                                                const tmp = members[0] || {};
-                                                delete tmp['_id'];
-                                                printJS({
-                                                    printable: members,
-                                                    type: 'json',
-                                                    properties: Object.keys(tmp),
-                                                    style: '* { min-width: 100px; text-align: start; }',
-                                                    gridHeaderStyle: 'color: royalblue;  border: 2px solid royalblue; text-align: center;',
-                                                    gridStyle: 'border: 1px solid blue;'
-                                                })
-                                            }}
-                                        />
+                                        {
+                                            printingMember
+                                                ? <reactNativePaper.ActivityIndicator />
+                                                : <MaterialCommunityIcons
+                                                    name="printer"
+                                                    color={'blue'}
+                                                    size={30}
+                                                    style={{ margin: 4 }}
+                                                    onPress={function () {
+                                                        setPrintingMember(true);
+
+                                                        const tmp = members[0] || {};
+                                                        delete tmp['_id'];
+
+                                                        const properties = Object.keys(tmp);
+                                                        for (let i = 0; i < members.length; i++) {
+                                                            const member: any = members[i];
+
+                                                            for (let j = 0; j < properties.length; j++) {
+                                                                const property = properties[j];
+
+                                                                if (!member[property]) {
+                                                                    member[property] = '_';
+                                                                }
+                                                            }
+                                                        }
+
+                                                        printJS({
+                                                            printable: members,
+                                                            type: 'json',
+                                                            properties: properties,
+                                                            style: '* { min-width: 100px; text-align: start; }',
+                                                            gridHeaderStyle: 'color: royalblue;  border: 2px solid royalblue; text-align: center;',
+                                                            gridStyle: 'border: 1px solid blue;'
+                                                        });
+
+                                                        setPrintingMember(false);
+                                                    }}
+                                                />
+                                        }
                                     </reactNativePaper.Tooltip>
                                 </ResponsiveContainer>
 
@@ -292,6 +322,7 @@ export function MembersReports() {
                                                 value={searchKey}
                                                 style={{ borderRadius: 1 }}
                                                 onChangeText={onSearchKeyChange}
+                                                onSubmitEditing={searchMembersByKey}
                                                 onClearIconPress={function () {
                                                     setMembers(members);
                                                     setLoadingSearch(false);
