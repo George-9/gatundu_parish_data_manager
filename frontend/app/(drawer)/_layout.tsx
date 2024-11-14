@@ -22,7 +22,8 @@ export default function Layout() {
               ? null
               : <DrawerToggleButton />
           )
-        }
+        },
+        drawerStyle: { 'maxWidth': 200 }
       }}>
       <Drawer.Screen name='index' options={{ title: 'reports' }} />
       <Drawer.Screen name='registry' />

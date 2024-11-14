@@ -10,10 +10,24 @@ export default function RootLayout() {
       />
 
       <Stack.Screen
-        name="MemberViewPage"
+        name="memberview"
         options={{
           headerShown: true,
           title: 'member view',
+          presentation: 'containedModal',
+          headerBackButtonMenuEnabled: true,
+          animation: 'fade',
+          animationDuration: 1800
+        }}
+      />
+
+      <Stack.Screen
+        name="searchresultview"
+        options={{
+          headerShown: true,
+          title: 'search results',
+          statusBarStyle: 'light',
+          contentStyle: { flex: 1, justifyContent: 'center', alignItems: 'center' },
           presentation: 'containedModal',
           headerBackButtonMenuEnabled: true,
           animation: 'fade',

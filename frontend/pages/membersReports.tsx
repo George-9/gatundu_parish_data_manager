@@ -31,20 +31,9 @@ export function MembersReports() {
     }
 
     const [fetchingMembers, setFetchingMmebers] = useState(false);
-
     const [printingMember, setPrintingMember]: any | null = useState(null);
 
-    // let selectedMembersIds: any[] = [];
-    const [isPrintingMembers, setPrintingMembers] = useState(false);
-
-    const [canPerformSearch, setCanPerformSearch] = useState(true);
-
     useEffect(function () { setTimeout(main, 1800); }, []);
-
-    // function memberIdInSelectionList(member: any) {
-    //     return selectedMembersIds.includes(member['_id']);
-    // }
-
     async function main() {
         let volumes = await VOLUMES_SOURCE.allVolumes();
         setTimeout(function () { loadViews(); }, 1200);
@@ -109,34 +98,7 @@ export function MembersReports() {
     }
 
     function searchMembersByKey() {
-        if (canPerformSearch) {
-            setLoadingSearch(true);
-
-            if (!(searchKey.trim())) {
-                setMembers(members);
-                return;
-            }
-
-            setCanPerformSearch(false);
-
-            const timeOutTimer = setTimeout(() => {
-                setLoadingSearch(true)
-                let filteredMembers = members.filter(function (member) {
-                    return (
-                        `${member['NAME']}`.toLowerCase().match(searchKey.trim().toLowerCase())
-                        || `${member['BAPTISMAL NUMBER']}`.toLowerCase()
-                            .match(searchKey.trim().toLowerCase())
-                    );
-                });
-
-                setMembers(filteredMembers);
-                setLoadingSearch(false)
-
-                setCanPerformSearch(true);
-                setLoadingSearch(false);
-                clearTimeout(timeOutTimer)
-            }, 1800);
-        }
+        navigator.navigate('searchresultview', { 'search_key': searchKey })
     }
 
     return (
@@ -156,10 +118,31 @@ export function MembersReports() {
                                             name="print"
                                             size={20}
                                             onPress={function () {
+                                                const div = document.createElement('div');
+                                                div.style.width = '100%';
+                                                div.style.display = 'flex';
+                                                div.style.justifyContent = 'center';
+                                                div.style.alignItems = 'center';
+                                                div.style.alignContent = 'center';
+
+                                                const keys = Object.keys(printingMember);
+
+                                                let str = '';
+
+                                                for (let i = 0; i < keys.length; i++) {
+                                                    const key = keys[i];
+                                                    if (key.match('_id')) {
+                                                        continue;
+                                                    }
+                                                    str += `<p style={min-width: 200px; font-weight: 700;}><span style={min-width: 100px; font-weight: 700;}>${key}</span>: <span>${printingMember[key]}</span></p>`
+                                                }
+
+                                                div.innerHTML = str;
                                                 printJS({
-                                                    printable: printingMember || {},
-                                                    type: 'json',
-                                                    properties: Object.keys(printingMember)
+                                                    printable: div,
+                                                    type: 'html',
+                                                    style: 'div { text-align: center; } p { text-align: start; }',
+                                                    header: printingMember['NAME']
                                                 });
                                             }}
                                         />
@@ -204,7 +187,16 @@ export function MembersReports() {
                                                                     {key.toUpperCase()}
                                                                 </reactNativePaper.Text>
 
-                                                                <reactNativePaper.Text style={{ fontWeight: '400' }}>{printingMember[key]}</reactNativePaper.Text>
+                                                                <reactNativePaper.Text style={{ fontWeight: '400' }}>
+                                                                    {
+                                                                        printingMember[key]
+                                                                            ? key.toUpperCase().match('DATE')
+                                                                                ? new Date(`${parseInt(printingMember[key])}`.length === `${printingMember[key]}`.length ? parseInt(printingMember[key]) : printingMember[key]).toLocaleDateString()
+                                                                                : printingMember[key]
+                                                                            :
+                                                                            ''
+                                                                    }
+                                                                </reactNativePaper.Text>
                                                             </View>
                                                         )
                                                 })
@@ -294,6 +286,10 @@ export function MembersReports() {
                                                         delete tmp['_id'];
 
                                                         const properties = Object.keys(tmp);
+                                                        properties.filter(function (prop: string) {
+                                                            return prop !== '_id';
+                                                        });
+
                                                         for (let i = 0; i < members.length; i++) {
                                                             const member: any = members[i];
 
@@ -339,10 +335,6 @@ export function MembersReports() {
                                                 style={{ borderRadius: 1 }}
                                                 onChangeText={onSearchKeyChange}
                                                 onSubmitEditing={searchMembersByKey}
-                                                onClearIconPress={function () {
-                                                    setMembers(members);
-                                                    setLoadingSearch(false);
-                                                }}
                                             />
                                     }
                                 </reactNativePaper.Portal>

@@ -41,6 +41,8 @@ export default function MemberView() {
     const [memberDeathDate, setMemberDeathDate] = useState('');
     const [memberMarriageKind, setMemberMarriageKind] = useState('');
 
+    const [loading, setLoading] = useState(true);
+
 
     useEffect(function () { setTimeout(() => { main(); }, 800); }, []);
     async function main() {
@@ -62,6 +64,8 @@ export default function MemberView() {
 
         const completeMemberDetails = await result.json();
         const memberDetails = completeMemberDetails['data'];
+        console.log(memberDetails);
+
 
         setloadingMember(false)
         console.log('memberDetails: ', memberDetails);
@@ -85,40 +89,61 @@ export default function MemberView() {
         setMemberDeathDate(memberDetails['DEATH'] || '');
         setMemberObservation(memberDetails['NOTE'] || '');
         setMemberConfirmationMinister(memberDetails['CONFIRMATION MINISTER'] || '');
+
+        const keys = Object.keys(memberDetails);
+
+        for (let i = 0; i < keys.length; i++) {
+            const key = keys[i];
+            if (key.toLocaleUpperCase().match('DATE')) {
+                if (memberDetails['key']) {
+                    memberDetails[key] = new Date(memberDetails[key]);
+                }
+            }
+        }
+
+        setLoading(false);
     }
 
     function onNameChange(value: string) {
         console.log(value);
 
         setMemberName(value);
+        memberDetails['NAME'] = value.trim().toUpperCase();
     }
 
     function onBaptismalNumberChange(value: string) {
         setMemberBaptismalNumber(value);
+        memberDetails['BAPTISMAL NUMBER'] = value.trim().toUpperCase();
     }
 
     function onDateOfBirthChange(value: string) {
         setMemberDateOfBirth(value);
+        memberDetails['DATE OF BIRTH'] = value.trim().toUpperCase();
     }
 
     function onDateOfBaptismChange(value: string) {
         setMemberDateOfBaptism(value);
+        memberDetails['DATE OF BAPTISM'] = value.trim().toUpperCase();
     }
 
     function onDateOfConfirmationChange(text: string) {
         setMemberDateOfConfirmation(text);
+        memberDetails['DATE OF CONFIRMATION'] = text.trim().toUpperCase();
     }
 
     function onFatherNameChange(value: string) {
         setMemberFatherName(value);
+        memberDetails['FATHER'] = value.trim().toUpperCase();
     }
 
     function onMotherNameChange(value: string) {
         setMemberMotherName(value);
+        memberDetails['MOTHER'] = value.trim().toUpperCase();
     }
 
     function onHomeAddressChange(value: string) {
         setMemberHomeAddress(value);
+        memberDetails['HOME ADDRESS'] = value.trim().toUpperCase();
     }
 
     function onGodFatherNameChange(value: string) {
@@ -135,30 +160,37 @@ export default function MemberView() {
 
     function onChangeDateOfFirstCommunion(value: string) {
         setMemberDateFirstCommunion(value);
+        memberDetails['FIRST COMMUNION'] = value.trim().toUpperCase();
     }
 
     function onSpouseNameChange(value: string) {
         setMemberSpouse(value);
+        memberDetails['SPOUSE'] = value.trim().toUpperCase();
     }
 
     function onDateOfWeddingChange(value: string) {
         setMemberDateOfMarriage(value);
+        memberDetails['DATE OF MARRIAGE'] = value.trim().toUpperCase();
     }
 
     function onMemberTribeChange(value: string) {
         setMemberTribe(value);
+        memberDetails['TRIBE'] = value.trim().toUpperCase();
     }
 
     function onMemberDateOfDeathChange(value: string) {
         setMemberDeathDate(value);
+        memberDetails['DEATH'] = value.trim().toUpperCase();
     }
 
     function onMemberObservsationChange(value: string) {
         setMemberObservation(value);
+        memberDetails['NOTE'] = value.trim().toUpperCase();
     }
 
     function onConfirmationMinisterChange(value: string) {
         setMemberConfirmationMinister(value);
+        memberDetails['CONFIRMATION MINISTER'] = value.trim().toUpperCase();
     }
 
     const memberDetails: MemberObject | any = {
@@ -326,7 +358,7 @@ export default function MemberView() {
 
     return (
         <PaperProvider> {
-            loadingMember
+            (loading || loadingMember)
                 ? <ActivityIndicator />
                 : memberDetails
                     ? (
@@ -368,7 +400,7 @@ export default function MemberView() {
 
                                                 <TextInput
                                                     label="date of birth"
-                                                    value={memberDetails.date_of_birth}
+                                                    value={new Date(memberDetails.date_of_birth)}
                                                     onChangeText={onDateOfBirthChange}
                                                 />
                                             </>
@@ -461,12 +493,12 @@ export default function MemberView() {
                                                 <TextInput
                                                     label="God Father"
                                                     onChangeText={onGodFatherNameChange}
-                                                    value={memberDetails.God_Father}
+                                                    value={memberGodFather}
                                                 />
 
                                                 <TextInput
                                                     label="God Mother"
-                                                    value={memberDetails.God_Mother}
+                                                    value={memberGodMother}
                                                     onChangeText={onGodMotherNameChange}
                                                 />
                                             </>
