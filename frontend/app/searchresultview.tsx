@@ -234,12 +234,12 @@ export default function MembersSearchResultView() {
                                                         }
 
                                                         div.innerHTML = str;
-                                                        printJS({
-                                                            printable: div,
-                                                            type: 'html',
-                                                            style: 'div { flex: 1; justify-content: center; align-items: center; align-content: center; } p { text-align: start; }',
-                                                            header: printingMember['NAME']
-                                                        });
+                                                        // printJS({
+                                                        //     printable: div,
+                                                        //     type: 'html',
+                                                        //     style: 'div { flex: 1; justify-content: center; align-items: center; align-content: center; } p { text-align: start; }',
+                                                        //     header: printingMember['NAME']
+                                                        // });
                                                     }}
                                                 />
                                                 : null

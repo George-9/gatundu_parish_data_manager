@@ -138,12 +138,12 @@ export function MembersReports() {
                                                 }
 
                                                 div.innerHTML = str;
-                                                printJS({
-                                                    printable: div,
-                                                    type: 'html',
-                                                    style: 'div { text-align: center; } p { text-align: start; }',
-                                                    header: printingMember['NAME']
-                                                });
+                                                // printJS({
+                                                //     printable: div,
+                                                //     type: 'html',
+                                                //     style: 'div { text-align: center; } p { text-align: start; }',
+                                                //     header: printingMember['NAME']
+                                                // });
                                             }}
                                         />
                                         : null
@@ -307,14 +307,14 @@ export function MembersReports() {
                                                             return;
                                                         }
 
-                                                        printJS({
-                                                            printable: members,
-                                                            type: 'json',
-                                                            properties: properties,
-                                                            style: '* { min-width: 100px; text-align: start; }',
-                                                            gridHeaderStyle: 'color: royalblue;  border: 2px solid royalblue; text-align: center;',
-                                                            gridStyle: 'border: 1px solid blue;'
-                                                        });
+                                                        // printJS({
+                                                        //     printable: members,
+                                                        //     type: 'json',
+                                                        //     properties: properties,
+                                                        //     style: '* { min-width: 100px; text-align: start; }',
+                                                        //     gridHeaderStyle: 'color: royalblue;  border: 2px solid royalblue; text-align: center;',
+                                                        //     gridStyle: 'border: 1px solid blue;'
+                                                        // });
 
                                                         setPrintingMember(false);
                                                     }}
