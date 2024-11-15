@@ -1,3 +1,4 @@
+import { DATABASE_CONTRACT } from "../database/databaseClient.js";
 import { APPLICATION_PROVIDER } from "./app/app.js";
 import { ADD_MEMBER } from "./callbacks/addMember.js";
 import { CREATE_VOLUME } from "./callbacks/createVolume.js";
@@ -12,7 +13,7 @@ const app = APPLICATION_PROVIDER.application.expressApp;
 const PORT = 8708;
 
 app.get('/', async function (req, resp) {
-    resp.json({ 'your ip address is: ': `${req.ip}` });
+    resp.redirect('./public')
 });
 
 app.post('/create/volume', CREATE_VOLUME);
