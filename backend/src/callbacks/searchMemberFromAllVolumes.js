@@ -24,7 +24,12 @@ export async function SEARCH_MEMBER_FROM_ALL_VOLUMES(req, resp) {
 
             const thisVolumeMatch = await DATABASE_CONTRACT
                 .colectionInstance(DB_CONSTANTS.databaseName, volumeName)
-                .find({ 'NAME': { $regex: `${search_key}` } }).toArray();
+                .find({
+                    $or: [
+                        { 'NAME': { $regex: `${search_key}` } },
+                        { 'BAPTISMAL NUMBER': { $regex: `${search_key}` } }
+                    ]
+                }).toArray();
 
             for (let j = 0; j < thisVolumeMatch.length; j++) {
                 const member = thisVolumeMatch[j];

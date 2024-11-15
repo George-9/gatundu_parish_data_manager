@@ -69,7 +69,8 @@ export default function MembersSearchResultView() {
                                                         justifyContent: 'space-between',
                                                         width: 250,
                                                         marginVertical: 4
-                                                    }}>
+                                                    }}
+                                                >
 
                                                     <reactNativePaper.Text style={{ fontWeight: '800' }}>
                                                         {key.toUpperCase()}

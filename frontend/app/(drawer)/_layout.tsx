@@ -10,6 +10,7 @@ export default function Layout() {
     <Drawer
       screenOptions={{
         'drawerContentStyle': { maxWidth: 200 },
+        drawerContentContainerStyle: { maxWidth: 200 },
         'drawerType': deviceSize.width > 800
           ? 'permanent'
           : 'slide',
