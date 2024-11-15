@@ -13,9 +13,6 @@ const app = APPLICATION_PROVIDER.application.expressApp;
 const PORT = 8708;
 
 app.get('/', async function (req, resp) {
-    const result = await DATABASE_CONTRACT.exec(`SELECT NOW() as date;`);
-    console.table(result);
-
     resp.json({ 'your ip address is: ': `${req.ip}` });
 });
 
