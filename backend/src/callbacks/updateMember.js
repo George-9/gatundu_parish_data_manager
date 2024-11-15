@@ -10,8 +10,11 @@ export async function UPDATE_MEMBER(req, resp) {
     }
 
     try {
-        let id = member['id'];
-        delete member['id'];
+        let id = member['_id'];
+        delete member['_id'];
+
+        console.log('updating id: ', id);
+
 
         const update = await DATABASE_CONTRACT
             .memberVolumeCollectionInstance(volume_name)
