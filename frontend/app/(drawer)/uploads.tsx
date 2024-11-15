@@ -126,7 +126,7 @@ export default function UploadMembersPage() {
 
                                     const volumeDetails = { volume_name: selectedVolumeName };
                                     const response = await fetch(
-                                        'http://64.227.66.13:8708/:8708/load/members/by/volume',
+                                        'http://64.227.66.13:8708/load/members/by/volume',
                                         {
                                             'method': 'POST',
                                             'mode': 'cors',
@@ -173,7 +173,7 @@ export default function UploadMembersPage() {
                                         }
 
                                         const uploadResult = await fetch(
-                                            'http://64.227.66.13:8708/:8708/upload/members',
+                                            'http://64.227.66.13:8708/upload/members',
                                             {
                                                 'method': 'POST',
                                                 'mode': 'cors',

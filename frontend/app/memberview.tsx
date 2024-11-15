@@ -52,7 +52,7 @@ export default function MemberView() {
         }
 
         const result = await fetch(
-            'http://64.227.66.13:8708/:8708/get/member/by/baptismal/number',
+            'http://64.227.66.13:8708/get/member/by/baptismal/number',
             {
                 'method': 'POST',
                 'body': JSON.stringify(body),
@@ -331,7 +331,7 @@ export default function MemberView() {
             memberDetails['id'] = params['id'];
             console.table(CAPITALISED_AND_TRIMMED_OBJECT(memberDetails));
             const result = await fetch(
-                'http://64.227.66.13:8708/:8708/update/member',
+                'http://64.227.66.13:8708/update/member',
                 {
                     'method': 'POST',
                     'mode': 'cors',

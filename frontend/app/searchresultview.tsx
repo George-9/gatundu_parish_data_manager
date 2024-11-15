@@ -23,7 +23,7 @@ export default function MembersSearchResultView() {
         const body = { search_key: `${params['search_key']}`.trim().toUpperCase() };
 
         const response = await fetch(
-            'http://64.227.66.13:8708/:8708/search/members/from/all/volumes',
+            'http://64.227.66.13:8708/search/members/from/all/volumes',
             {
                 'method': 'POST',
                 'mode': 'cors',

@@ -345,7 +345,7 @@ export default function MembersRegistry() {
             delete memberDetails['GOD MOTHER'];
 
             const result = await fetch(
-                'http://64.227.66.13:8708/:8708/register/member',
+                'http://64.227.66.13:8708/register/member',
                 {
                     'method': 'POST',
                     'mode': 'cors',

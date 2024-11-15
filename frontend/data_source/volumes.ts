@@ -30,7 +30,7 @@ export class VOLUMES_SOURCE {
     }
 
     static async #loadVolumes(): Promise<{ id: number, vol_name: string }[]> {
-        const result = await fetch('http://64.227.66.13:8708/:8708/load/volumes', { 'mode': 'cors', });
+        const result = await fetch('http://64.227.66.13:8708/load/volumes', { 'mode': 'cors', });
         const details = (await result.json())
         const volumes = details['data'];
 

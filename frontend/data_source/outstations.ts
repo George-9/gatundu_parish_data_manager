@@ -19,7 +19,7 @@ export class OUTSTATIONS_SOURCE {
 
 
     static async #loadOutstations() {
-        const result = await fetch('http://64.227.66.13:8708/:8708/load/outstations', { 'mode': 'cors', });
+        const result = await fetch('http://64.227.66.13:8708/load/outstations', { 'mode': 'cors', });
         const details = (await result.json())
         const outstations = details['data'];
 
