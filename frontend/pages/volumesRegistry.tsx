@@ -47,7 +47,7 @@ export default function VolumesRegistryPage() {
         const body = { 'volume_name': volumeName.trim() }
 
         const result = await fetch(
-            'http://localhost:8708/create/volume',
+            'http://64.227.66.13:8708/:8708/create/volume',
             {
                 'method': 'POST',
                 'body': JSON.stringify(body),

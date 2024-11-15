@@ -63,7 +63,7 @@ export function MembersReports() {
         const volumeDetails = { volume_name: volumeName };
 
         const response = await fetch(
-            'http://localhost:8708/load/members/by/volume',
+            'http://64.227.66.13:8708/:8708/load/members/by/volume',
             {
                 'method': 'POST',
                 'mode': 'cors',
