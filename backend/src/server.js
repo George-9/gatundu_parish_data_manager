@@ -12,10 +12,6 @@ import { UPLOAD_MEMBERS } from "./callbacks/uploadMembers.js";
 const app = APPLICATION_PROVIDER.application.expressApp;
 const PORT = 8708;
 
-app.get('/', async function (req, resp) {
-    resp.redirect('./public')
-});
-
 app.post('/create/volume', CREATE_VOLUME);
 app.post('/register/member', ADD_MEMBER);
 app.post('/get/member/by/baptismal/number', GET_MEMBER_BY_BAPTISMAL_NUMBER);
