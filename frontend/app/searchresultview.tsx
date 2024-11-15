@@ -3,12 +3,14 @@ import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { useGlobalSearchParams, useNavigation } from "expo-router";
 import printJS from "print-js";
 import { useEffect, useState } from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, useWindowDimensions, View } from "react-native";
 import * as reactNativePaper from "react-native-paper";
 
 export default function MembersSearchResultView() {
     const params = useGlobalSearchParams();
     const navigator = useNavigation();
+
+    const deviceSize = useWindowDimensions();
 
     const [loadingMmebers, setLoadingMembers] = useState(true);
     const [members, setMembers] = useState([]);
@@ -51,9 +53,10 @@ export default function MembersSearchResultView() {
                     flexDirection: 'column',
                     alignItems: 'center',
                     marginVertical: 4,
+                    maxHeight: deviceSize.height - 80
                 }}>
                 <MainContainerView>
-                    {
+                    {/* {
                         printingMember ?
                             <>
                                 {
@@ -92,115 +95,148 @@ export default function MembersSearchResultView() {
                                 }
                             </>
                             : <></>
-                    }
+                    } */}
 
                     <View style={{ flex: 1 }}>
                         {
                             loadingMmebers
                                 ? <reactNativePaper.ActivityIndicator />
                                 : (
-                                    <View>
-                                        <reactNativePaper.DataTable>
-                                            <reactNativePaper.DataTable.Header>
-                                                <reactNativePaper.DataTable.Title>NO</reactNativePaper.DataTable.Title>
-                                                <reactNativePaper.DataTable.Title style={{ minWidth: 200 }}>NAME</reactNativePaper.DataTable.Title>
-                                                <reactNativePaper.DataTable.Title style={{ minWidth: 100 }}>FROM VOLUME</reactNativePaper.DataTable.Title>
-                                                <reactNativePaper.DataTable.Title style={{ minWidth: 200 }}>NUMBER/BAPTISMAL NUMBER</reactNativePaper.DataTable.Title>
-                                                <reactNativePaper.DataTable.Title>{' '}</reactNativePaper.DataTable.Title>
-                                                <reactNativePaper.DataTable.Title>{' '}</reactNativePaper.DataTable.Title>
-                                            </reactNativePaper.DataTable.Header>
-                                            {
-                                                members.length < 1
-                                                    ? (
-                                                        <reactNativePaper.Text style={{ fontWeight: '900' }}>
-                                                            NO MEMBERS
-                                                        </reactNativePaper.Text>
-                                                    )
-                                                    : <>
-                                                        {
-                                                            members.map(function (member: any, index) {
-                                                                return (
-                                                                    <reactNativePaper.DataTable.Row key={member['_id']}>
-                                                                        <reactNativePaper.DataTable.Cell>{index + 1}</reactNativePaper.DataTable.Cell>
-                                                                        {
-                                                                            /* <reactNativePaper.DataTable.Cell>
-                                                                                <Ionicons
-                                                                                    name={checking
-                                                                                        ? 'text-sharp'
-                                                                                        : selectedMembersIds.length > 1
-                                                                                            ? 'remove-outline'
-                                                                                            : 'add-outline'}
-                                                                                    onPress={function () {
-                                                                                        setChecking(true);
-            
-                                                                                        if (memberIdInSelectionList(member)) {
-                                                                                            selectedMembersIds = selectedMembersIds.filter(function (id) {
-                                                                                                return id !== member['_id'];
-                                                                                            });
-                                                                                        } else {
-                                                                                            selectedMembersIds.push(member['_id']);
-                                                                                            console.log('selectedMembersIds::', selectedMembersIds);
-                                                                                        }
-                                                                                        setChecking(false);
+                                    <ScrollView horizontal={true} style={{
+                                        maxWidth: deviceSize.width,
+                                        maxHeight: 700,
+                                        paddingBottom: 400
+                                    }}>
+                                        <View>
+                                            <reactNativePaper.DataTable>
+                                                <reactNativePaper.DataTable.Header>
+                                                    <reactNativePaper.DataTable.Title>NO</reactNativePaper.DataTable.Title>
+                                                    <reactNativePaper.DataTable.Title style={{ minWidth: 200 }}>NAME</reactNativePaper.DataTable.Title>
+                                                    <reactNativePaper.DataTable.Title style={{ minWidth: 100 }}>FROM VOLUME</reactNativePaper.DataTable.Title>
+                                                    <reactNativePaper.DataTable.Title style={{ minWidth: 200 }}>NUMBER/BAPTISMAL NUMBER</reactNativePaper.DataTable.Title>
+                                                    <reactNativePaper.DataTable.Title>{' '}</reactNativePaper.DataTable.Title>
+                                                    <reactNativePaper.DataTable.Title>{' '}</reactNativePaper.DataTable.Title>
+                                                </reactNativePaper.DataTable.Header>
+                                                {
+                                                    members.length < 1
+                                                        ? (
+                                                            <reactNativePaper.Text style={{ fontWeight: '900' }}>
+                                                                NO MEMBERS
+                                                            </reactNativePaper.Text>
+                                                        )
+                                                        : <>
+                                                            {
+                                                                members.map(function (member: any, index) {
+                                                                    return (
+                                                                        <reactNativePaper.DataTable.Row key={member['_id']}>
+                                                                            <reactNativePaper.DataTable.Cell>{index + 1}</reactNativePaper.DataTable.Cell>
+                                                                            {
+                                                                                /* <reactNativePaper.DataTable.Cell>
+                                                                                    <Ionicons
+                                                                                        name={checking
+                                                                                            ? 'text-sharp'
+                                                                                            : selectedMembersIds.length > 1
+                                                                                                ? 'remove-outline'
+                                                                                                : 'add-outline'}
+                                                                                        onPress={function () {
+                                                                                            setChecking(true);
+                
+                                                                                            if (memberIdInSelectionList(member)) {
+                                                                                                selectedMembersIds = selectedMembersIds.filter(function (id) {
+                                                                                                    return id !== member['_id'];
+                                                                                                });
+                                                                                            } else {
+                                                                                                selectedMembersIds.push(member['_id']);
+                                                                                                console.log('selectedMembersIds::', selectedMembersIds);
+                                                                                            }
+                                                                                            setChecking(false);
+                                                                                        }}
+                                                                                    />
+                                                                                </reactNativePaper.DataTable.Cell> */
+                                                                            }
+                                                                            <reactNativePaper.DataTable.Cell
+                                                                                style={{
+                                                                                    flexGrow: 1,
+                                                                                    margin: 3,
+                                                                                    minWidth: 200
+                                                                                }}
+                                                                            >
+                                                                                {member['NAME']}
+                                                                            </reactNativePaper.DataTable.Cell>
+
+                                                                            {/* owner volume */}
+                                                                            <reactNativePaper.DataTable.Cell
+                                                                                style={{ minWidth: 100 }}>{member['vol']}
+                                                                            </reactNativePaper.DataTable.Cell>
+
+                                                                            <reactNativePaper.DataTable.Cell
+                                                                                style={{ minWidth: 100 }}>{member['BAPTISMAL NUMBER']}
+                                                                            </reactNativePaper.DataTable.Cell>
+
+                                                                            <reactNativePaper.DataTable.Cell>
+                                                                                <MaterialCommunityIcons
+                                                                                    name="book-edit-outline"
+                                                                                    size={20}
+                                                                                    onPress={async function () {
+                                                                                        navigator.navigate(
+                                                                                            'memberview',
+                                                                                            {
+                                                                                                'volumename': member['vol'],
+                                                                                                'id': member['_id']
+                                                                                            }
+                                                                                        );
                                                                                     }}
                                                                                 />
-                                                                            </reactNativePaper.DataTable.Cell> */
-                                                                        }
-                                                                        <reactNativePaper.DataTable.Cell
-                                                                            style={{
-                                                                                flexGrow: 1,
-                                                                                margin: 3,
-                                                                                minWidth: 200
-                                                                            }}
-                                                                        >
-                                                                            {member['NAME']}
-                                                                        </reactNativePaper.DataTable.Cell>
+                                                                            </reactNativePaper.DataTable.Cell>
 
-                                                                        {/* owner volume */}
-                                                                        <reactNativePaper.DataTable.Cell
-                                                                            style={{ minWidth: 100 }}>{member['vol']}
-                                                                        </reactNativePaper.DataTable.Cell>
+                                                                            <reactNativePaper.DataTable.Cell>
+                                                                                <Ionicons
+                                                                                    name="print"
+                                                                                    size={20}
+                                                                                    onPress={async function () {
+                                                                                        setPrintingMember(member);
 
-                                                                        <reactNativePaper.DataTable.Cell
-                                                                            style={{ minWidth: 100 }}>{member['BAPTISMAL NUMBER']}
-                                                                        </reactNativePaper.DataTable.Cell>
+                                                                                        const div = document.createElement('div');
+                                                                                        div.style.width = '100%';
+                                                                                        div.style.display = 'flex';
+                                                                                        div.style.justifyContent = 'center';
+                                                                                        div.style.alignItems = 'center';
+                                                                                        div.style.alignContent = 'center';
 
-                                                                        <reactNativePaper.DataTable.Cell>
-                                                                            <MaterialCommunityIcons
-                                                                                name="book-edit-outline"
-                                                                                size={20}
-                                                                                onPress={async function () {
-                                                                                    navigator.navigate(
-                                                                                        'memberview',
-                                                                                        {
-                                                                                            'volumename': member['vol'],
-                                                                                            'id': member['_id']
+                                                                                        const keys = Object.keys(printingMember);
+
+                                                                                        let str = '';
+
+                                                                                        for (let i = 0; i < keys.length; i++) {
+                                                                                            const key = keys[i];
+                                                                                            if (key.match('_id')) {
+                                                                                                continue;
+                                                                                            }
+                                                                                            str += `<p style={min-width: 200px; font-weight: 700;}><span style={min-width: 100px; font-weight: 700;}>${key}</span>: <span>${printingMember[key]}</span></p>`
                                                                                         }
-                                                                                    );
-                                                                                }}
-                                                                            />
-                                                                        </reactNativePaper.DataTable.Cell>
 
-                                                                        <reactNativePaper.DataTable.Cell>
-                                                                            <Ionicons
-                                                                                name="print"
-                                                                                size={20}
-                                                                                onPress={async function () {
-                                                                                    setPrintingMember(member);
-                                                                                }}
-                                                                            />
-                                                                        </reactNativePaper.DataTable.Cell>
-                                                                    </reactNativePaper.DataTable.Row>
-                                                                )
-                                                            })
-                                                        }
-                                                    </>
-                                            }
-                                        </reactNativePaper.DataTable>
-                                    </View>
+                                                                                        div.innerHTML = str;
+                                                                                        printJS({
+                                                                                            printable: div,
+                                                                                            type: 'html',
+                                                                                            style: 'div { flex: 1; justify-content: center; align-items: center; align-content: center; } p { text-align: start; }',
+                                                                                            header: printingMember['NAME']
+                                                                                        });
+
+                                                                                    }}
+                                                                                />
+                                                                            </reactNativePaper.DataTable.Cell>
+                                                                        </reactNativePaper.DataTable.Row>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </>
+                                                }
+                                            </reactNativePaper.DataTable>
+                                        </View>
+                                    </ScrollView>
                                 )
                         }
-
 
                         <reactNativePaper.Portal>
                             <reactNativePaper.Dialog
@@ -235,12 +271,12 @@ export default function MembersSearchResultView() {
                                                         }
 
                                                         div.innerHTML = str;
-                                                        // printJS({
-                                                        //     printable: div,
-                                                        //     type: 'html',
-                                                        //     style: 'div { flex: 1; justify-content: center; align-items: center; align-content: center; } p { text-align: start; }',
-                                                        //     header: printingMember['NAME']
-                                                        // });
+                                                        printJS({
+                                                            printable: div,
+                                                            type: 'html',
+                                                            style: 'div { flex: 1; justify-content: center; align-items: center; align-content: center; } p { text-align: start; }',
+                                                            header: printingMember['NAME']
+                                                        });
                                                     }}
                                                 />
                                                 : null

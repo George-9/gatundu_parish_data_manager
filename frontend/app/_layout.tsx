@@ -28,7 +28,7 @@ export default function RootLayout() {
           title: 'search results',
           statusBarStyle: 'light',
           contentStyle: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-          presentation: 'containedModal',
+          presentation: 'fullScreenModal',
           headerBackButtonMenuEnabled: true,
           animation: 'fade',
           animationDuration: 1800
