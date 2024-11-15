@@ -203,14 +203,7 @@ export function MembersReports() {
                                                                 </reactNativePaper.Text>
 
                                                                 <reactNativePaper.Text style={{ fontWeight: '400' }}>
-                                                                    {
-                                                                        printingMember[key]
-                                                                            ? key.toUpperCase().match('DATE')
-                                                                                ? new Date(`${parseInt(printingMember[key])}`.length === `${printingMember[key]}`.length ? parseInt(printingMember[key]) : printingMember[key]).toLocaleDateString()
-                                                                                : printingMember[key]
-                                                                            :
-                                                                            ''
-                                                                    }
+                                                                    {printingMember[key]}
                                                                 </reactNativePaper.Text>
                                                             </View>
                                                         )

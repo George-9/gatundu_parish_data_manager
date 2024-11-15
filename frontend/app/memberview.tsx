@@ -90,16 +90,16 @@ export default function MemberView() {
         setMemberObservation(memberDetails['NOTE'] || '');
         setMemberConfirmationMinister(memberDetails['CONFIRMATION MINISTER'] || '');
 
-        const keys = Object.keys(memberDetails);
+        // const keys = Object.keys(memberDetails);
 
-        for (let i = 0; i < keys.length; i++) {
-            const key = keys[i];
-            if (key.toLocaleUpperCase().match('DATE')) {
-                if (memberDetails['key']) {
-                    memberDetails[key] = new Date(memberDetails[key]);
-                }
-            }
-        }
+        // for (let i = 0; i < keys.length; i++) {
+        //     const key = keys[i];
+        //     if (key.toLocaleUpperCase().match('DATE')) {
+        //         if (memberDetails['key']) {
+        //             memberDetails[key] = new Date(memberDetails[key]);
+        //         }
+        //     }
+        // }
 
         setLoading(false);
     }
