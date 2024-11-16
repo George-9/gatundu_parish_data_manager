@@ -8,8 +8,7 @@ import { CAPITALISED_AND_TRIMMED_OBJECT } from "@/utils/objectValidator";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { View, SafeAreaView } from "react-native";
-import { ActivityIndicator, Text, MD3DarkTheme, MD3LightTheme, Snackbar, Portal, PaperProvider } from "react-native-paper";
-import { SearchBar } from "react-native-screens";
+import * as reactNativePaper from "react-native-paper";
 
 export default function MemberView() {
     const params = useLocalSearchParams();
@@ -356,28 +355,28 @@ export default function MemberView() {
     }
 
     return (
-        <PaperProvider> {
+        <reactNativePaper.PaperProvider> {
             (loading || loadingMember)
-                ? <ActivityIndicator />
+                ? <reactNativePaper.ActivityIndicator />
                 : memberDetails
                     ? (
                         <SafeAreaView>
-                            <Portal>
-                                <Snackbar
+                            <reactNativePaper.Portal>
+                                <reactNativePaper.Snackbar
                                     visible={showingMessege}
                                     duration={2000}
-                                    theme={MD3DarkTheme}
+                                    theme={reactNativePaper.MD3DarkTheme}
                                     icon={'information'}
                                     onDismiss={function () { setShowingMessege(false); }}
                                 >
                                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                                        <Text style={{ color: 'black' }}>{currentMessege}</Text>
+                                        <reactNativePaper.Text style={{ color: 'black' }}>{currentMessege}</reactNativePaper.Text>
                                     </View>
-                                </Snackbar>
-                            </Portal>
+                                </reactNativePaper.Snackbar>
+                            </reactNativePaper.Portal>
                             {
                                 !memberDetails
-                                    ? <ActivityIndicator />
+                                    ? <reactNativePaper.ActivityIndicator />
                                     : <CustomScrollView>
 
                                         <MainContainerView>
@@ -406,7 +405,7 @@ export default function MemberView() {
 
                                             <>
                                                 <View>
-                                                    <Text>GENDER</Text>
+                                                    <reactNativePaper.Text>GENDER</reactNativePaper.Text>
                                                     <CustomPicker
                                                         defaultValue={memberDetails['GENDER'] || 'M'}
                                                         onChange={function (event: any) {
@@ -420,7 +419,7 @@ export default function MemberView() {
                                                 <HorizontalSpacer />
 
                                                 <View>
-                                                    <Text>MARRIAGE KIND</Text>
+                                                    <reactNativePaper.Text>MARRIAGE KIND</reactNativePaper.Text>
 
                                                     <CustomPicker
                                                         defaultValue={'SPOUSE'}
@@ -547,7 +546,7 @@ export default function MemberView() {
                             <View style={{ display: 'flex', flexDirection: 'row', 'justifyContent': 'center' }}>
                                 <CustomOutlinedButton
                                     mode="contained-tonal"
-                                    theme={MD3LightTheme}
+                                    theme={reactNativePaper.MD3LightTheme}
                                     title={"SAVE CHANGES"}
                                     onPress={onUpdateMemberDetails}
                                 />
@@ -555,6 +554,6 @@ export default function MemberView() {
 
                         </SafeAreaView>
                     ) : <></>}
-        </PaperProvider>
+        </reactNativePaper.PaperProvider>
     )
 }
