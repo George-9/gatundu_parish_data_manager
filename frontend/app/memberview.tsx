@@ -4,7 +4,6 @@ import CustomPicker from "@/components/Picker";
 import CustomScrollView from "@/components/ScrollView";
 import { HorizontalSpacer } from "@/components/Spacers";
 import TextInput from "@/components/TextInput";
-import { MemberObject } from "@/pages/memberRegistry";
 import { CAPITALISED_AND_TRIMMED_OBJECT } from "@/utils/objectValidator";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
@@ -193,7 +192,7 @@ export default function MemberView() {
         memberDetails['CONFIRMATION MINISTER'] = value.trim().toUpperCase();
     }
 
-    const memberDetails: MemberObject | any = {
+    const memberDetails: any = {
         name: memberName,
         baptismal_number: memberBaptismalNumber,
         gender: memberGender,
@@ -400,7 +399,7 @@ export default function MemberView() {
 
                                                 <TextInput
                                                     label="date of birth"
-                                                    value={new Date(memberDetails.date_of_birth)}
+                                                    value={memberDetails.date_of_birth}
                                                     onChangeText={onDateOfBirthChange}
                                                 />
                                             </>
