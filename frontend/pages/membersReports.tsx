@@ -37,7 +37,7 @@ export function MembersReports() {
             return [];
         }
         const neededProps = Object.keys(members[0]).filter(function (prop: string) {
-            return !(prop.toLocaleLowerCase().match('_id'))
+            return !(prop.toLocaleLowerCase().match('_id')) && !(prop.toLocaleLowerCase().match('ADDED ON'));
         });
 
         return neededProps;
@@ -151,13 +151,13 @@ export function MembersReports() {
                                                 }
 
                                                 div.innerHTML = str;
-                                                // printJS({
-                                                //     printable: div,
-                                                //     type: 'html',
-                                                //     properties: getExportProperties(),
-                                                //     style: 'div { text-align: center; } p { text-align: start; }',
-                                                //     header: printingMember['NAME']
-                                                // });
+                                                printJS({
+                                                    printable: div,
+                                                    type: 'html',
+                                                    properties: getExportProperties(),
+                                                    style: 'div { text-align: center; } p { text-align: start; }',
+                                                    header: printingMember['NAME']
+                                                });
                                             }}
                                         />
                                         : null
@@ -314,14 +314,14 @@ export function MembersReports() {
                                                                 return;
                                                             }
 
-                                                            // printJS({
-                                                            //     printable: members,
-                                                            //     type: 'json',
-                                                            //     properties: properties,
-                                                            //     style: '* { min-width: 100px; text-align: start; }',
-                                                            //     gridHeaderStyle: 'color: royalblue;  border: 2px solid royalblue; text-align: center;',
-                                                            //     gridStyle: 'border: 1px solid blue;'
-                                                            // });
+                                                            printJS({
+                                                                printable: members,
+                                                                type: 'json',
+                                                                properties: properties,
+                                                                style: '* { min-width: 100px; text-align: start; }',
+                                                                gridHeaderStyle: 'color: royalblue;  border: 2px solid royalblue; text-align: center;',
+                                                                gridStyle: 'border: 1px solid blue;'
+                                                            });
                                                         }}
                                                     />
                                             }

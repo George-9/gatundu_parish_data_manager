@@ -15,9 +15,6 @@ export async function UPDATE_MEMBER(req, resp) {
         let id = member['id'];
         delete member['id'];
 
-        console.log('updating id: ', id);
-
-
         const update = await DATABASE_CONTRACT
             .memberVolumeCollectionInstance(volume_name)
             .updateOne(

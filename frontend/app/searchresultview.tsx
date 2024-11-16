@@ -195,7 +195,7 @@ export default function MembersSearchResultView() {
                                                                                     name="print"
                                                                                     size={20}
                                                                                     onPress={async function () {
-                                                                                        setPrintingMember(member);
+                                                                                        setPrintingMember(member); ``
 
                                                                                         const div = document.createElement('div');
                                                                                         div.style.width = '100%';
@@ -217,13 +217,12 @@ export default function MembersSearchResultView() {
                                                                                         }
 
                                                                                         div.innerHTML = str;
-
-                                                                                        // printJS({
-                                                                                        //     printable: div,
-                                                                                        //     type: 'html',
-                                                                                        //     style: 'div { flex: 1; justify-content: center; align-items: center; align-content: center; } p { text-align: start; }',
-                                                                                        //     header: printingMember['NAME']
-                                                                                        // });
+                                                                                        printJS({
+                                                                                            printable: div,
+                                                                                            type: 'html',
+                                                                                            style: 'div { flex: 1; justify-content: center; align-items: center; align-content: center; } p { text-align: start; }',
+                                                                                            header: printingMember['NAME']
+                                                                                        });
                                                                                     }}
                                                                                 />
                                                                             </reactNativePaper.DataTable.Cell>
@@ -239,62 +238,6 @@ export default function MembersSearchResultView() {
                                 </ScrollView>
                             )
                     }
-
-                    <reactNativePaper.Portal>
-                        <reactNativePaper.Dialog
-                            visible={printingMember !== null}
-                            style={{ maxHeight: 200 }}
-                        >
-                            <reactNativePaper.Card theme={reactNativePaper.MD3LightTheme}>
-                                <reactNativePaper.Card.Actions>
-                                    {
-                                        printingMember
-                                            ? <Ionicons
-                                                name="print"
-                                                size={20}
-                                                onPress={function () {
-                                                    const div = document.createElement('div');
-                                                    div.style.width = '100%';
-                                                    div.style.display = 'flex';
-                                                    div.style.justifyContent = 'center';
-                                                    div.style.alignItems = 'center';
-                                                    div.style.alignContent = 'center';
-
-                                                    const keys = Object.keys(printingMember);
-
-                                                    let str = '';
-
-                                                    for (let i = 0; i < keys.length; i++) {
-                                                        const key = keys[i];
-                                                        if (key.match('_id')) {
-                                                            continue;
-                                                        }
-                                                        str += `<p style={min-width: 200px; font-weight: 700;}><span style={min-width: 100px; font-weight: 700;}>${key}</span>: <span>${printingMember[key]}</span></p>`
-                                                    }
-
-                                                    div.innerHTML = str;
-                                                    // printJS({
-                                                    //     printable: div,
-                                                    //     type: 'html',
-                                                    //     style: 'div { flex: 1; justify-content: center; align-items: center; align-content: center; } p { text-align: start; }',
-                                                    //     header: printingMember['NAME']
-                                                    // });
-                                                }}
-                                            />
-                                            : null
-                                    }
-                                    <Ionicons
-                                        name="close"
-                                        size={30}
-                                        onPress={function () {
-                                            setPrintingMember(null);
-                                        }}
-                                    />
-                                </reactNativePaper.Card.Actions>
-                            </reactNativePaper.Card>
-
-                        </reactNativePaper.Dialog>
-                    </reactNativePaper.Portal>
                 </View>
             </MainContainerView>
         </reactNativePaper.PaperProvider>

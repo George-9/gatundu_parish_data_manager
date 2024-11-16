@@ -104,8 +104,6 @@ export default function UploadMembersPage() {
                                 setUploading(false);
                                 return;
                             } else {
-
-
                                 let fileReader = new FileReader()
                                 fileReader.onload = async function () {
                                     const allMembers = [];
