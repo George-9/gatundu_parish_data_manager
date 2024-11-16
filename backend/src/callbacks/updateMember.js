@@ -5,13 +5,15 @@ export async function UPDATE_MEMBER(req, resp) {
     const { volume_name, member } = req.body;
     const details = { 'msg': '', 'data': '' }
 
+    console.log(volume_name, member);
+
     if (!volume_name || !member) {
         return resp.json('bad request');
     }
 
     try {
-        let id = member['_id'];
-        delete member['_id'];
+        let id = member['id'];
+        delete member['id'];
 
         console.log('updating id: ', id);
 
