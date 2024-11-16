@@ -1,4 +1,3 @@
-import { DB_CONSTANTS } from "../../database/constants.js";
 import { DATABASE_CONTRACT } from "../../database/databaseClient.js";
 
 export async function CREATE_VOLUME(req, resp) {
@@ -6,7 +5,6 @@ export async function CREATE_VOLUME(req, resp) {
     const response = { 'msg': '', 'data': [] };
 
     try {
-
         if (!volume_name) {
             response.msg = 'bad request: empty volume name'
             return resp.json(response);

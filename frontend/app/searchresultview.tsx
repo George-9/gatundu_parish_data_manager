@@ -53,8 +53,9 @@ export default function MembersSearchResultView() {
                     flexDirection: 'column',
                     alignItems: 'center',
                     marginVertical: 4,
-                    maxHeight: deviceSize.height - 80
-                }}>
+                    maxHeight: deviceSize.height - 100
+                }}
+            >
                 <MainContainerView>
                     {/* {
                         printingMember ?
@@ -102,11 +103,14 @@ export default function MembersSearchResultView() {
                             loadingMmebers
                                 ? <reactNativePaper.ActivityIndicator />
                                 : (
-                                    <ScrollView horizontal={true} style={{
-                                        maxWidth: deviceSize.width,
-                                        maxHeight: 700,
-                                        paddingBottom: 400
-                                    }}>
+                                    <ScrollView
+                                        horizontal={true}
+                                        style={{
+                                            maxWidth: deviceSize.width,
+                                            maxHeight: 700,
+                                            paddingBottom: 400
+                                        }}
+                                    >
                                         <View>
                                             <reactNativePaper.DataTable>
                                                 <reactNativePaper.DataTable.Header>

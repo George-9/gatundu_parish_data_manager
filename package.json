@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "react-art": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-native-web": "^0.19.13"
-  }
-}
